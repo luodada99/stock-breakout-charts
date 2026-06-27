@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>143只箱体突破票 60日行情+VAR7吸筹</title>
+<script src="./echarts.min.js"></script>
+<script src="./stock_data.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; }
+  .topbar { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 10px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+  .topbar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .topbar h1 { font-size: 15px; color: #1a237e; white-space: nowrap; }
+  .search-box { flex: 1; min-width: 200px; max-width: 350px; position: relative; }
+  .search-box input { width: 100%; padding: 7px 12px 7px 32px; border: 1px solid #ddd; border-radius: 20px; font-size: 13px; outline: none; }
+  .search-box input:focus { border-color: #1a237e; }
+  .search-box::before { content: ""; position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat; }
+  .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn { padding: 5px 12px; border: 1px solid #ddd; background: #fff; color: #666; border-radius: 15px; cursor: pointer; font-size: 12px; white-space: nowrap; }
+  .filter-btn:hover { border-color: #1a237e; color: #1a237e; }
+  .filter-btn.active { background: #1a237e; color: #fff; border-color: #1a237e; font-weight: 600; }
+  .result-count { font-size: 12px; color: #999; margin-left: auto; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 12px; }
+  .stock-card { background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 12px; overflow: hidden; }
+  .stock-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #fafbfc; border-bottom: 1px solid #eee; }
+  .stock-title { display: flex; align-items: center; gap: 8px; }
+  .stock-name { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+  .stock-code { font-size: 12px; color: #888; background: #f0f0f0; padding: 1px 6px; border-radius: 3px; }
+  .stock-tags { display: flex; gap: 5px; }
+  .tag { font-size: 11px; padding: 2px 7px; border-radius: 3px; font-weight: 600; }
+  .tag-breaking { background: #fff3e0; color: #e65100; }
+  .tag-near { background: #e3f2fd; color: #1565c0; }
+  .tag-confirmed { background: #e8f5e9; color: #2e7d32; }
+  .tag-extended { background: #e8f5e9; color: #2e7d32; }
+  .tag-score { background: #fce4ec; color: #c2185b; }
+  .chart-section { padding: 6px 8px 4px; }
+  .section-label { font-size: 10px; color: #999; padding: 1px 5px; background: #f5f5f5; border-radius: 2px; display: inline-block; margin-bottom: 2px; }
+  .chart-kline { width: 100%; height: 260px; }
+  .chart-vol { width: 100%; height: 80px; }
+  .chart-var7 { width: 100%; height: 120px; margin-top: 4px; }
+  .stats-bar { display: flex; justify-content: space-around; padding: 4px 12px 6px; font-size: 11px; color: #888; border-top: 1px solid #f0f0f0; }
+  .stats-bar strong { color: #333; }
+  .no-result { text-align: center; padding: 40px; color: #999; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <h1>箱体突破+VAR7吸筹</h1>
+    <div class="search-box"><input type="text" id="searchInput" placeholder="搜索股票代码或名称..." oninput="onFilterChange()"></div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">全部(143)</button>
+      <button class="filter-btn" data-filter="breaking_out">刚突破(24)</button>
+      <button class="filter-btn" data-filter="near_top">即将突破(8)</button>
+      <button class="filter-btn" data-filter="confirmed">突破确认(111)</button>
+    </div>
+    <span class="result-count" id="resultCount">显示 143 只</span>
+  </div>
+</div>
+<div class="container" id="stockContainer"></div>
+<script src="./stock_app.js"></script>
+</body>
+</html>
